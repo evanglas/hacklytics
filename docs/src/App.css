@@ -3,3 +3,34 @@
 * {
   transition: all 0.3s ease; /* Apply a smooth transition to all elements */
 }
+
+.app-wrapper {
+  background-color: #fff; /* Default background color */
+  transition: background-color 0.5s ease; /* Smooth transition for background color */
+}
+
+.correct {
+  animation: flashGreen 0.5s infinite alternate; /* Flash green animation for correct answer */
+}
+
+.incorrect {
+  animation: flashRed 0.5s infinite alternate; /* Flash red animation for incorrect answer */
+}
+
+@keyframes flashGreen {
+  from {
+    background-color: #00ff00; /* Green */
+  }
+  to {
+    background-color: #fff; /* Default background color */
+  }
+}
+
+@keyframes flashRed {
+  from {
+    background-color: #ff0000; /* Red */
+  }
+  to {
+    background-color: #fff; /* Default background color */
+  }
+}
