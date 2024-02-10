@@ -20,18 +20,45 @@ function App() {
     return guess === "Up" ? isUp : !isUp;
   };
 
-  const handleGuess = (guess) => {
-    console.log("User Guess: ", guess);
-    const botGuess = getBotGuess();
+  const logGuesses = (userGuess, botGuess) => {
+    console.log("User Guess: ", userGuess);
     console.log("Bot Guess: ", botGuess);
+  };
 
-    if (isGuessCorrect(guess)) {
+  const updateScores = (userGuess, botGuess) => {
+    if (isGuessCorrect(userGuess)) {
       setUserScore(userScore + 1);
       setHeadline("You Win!");
     } else {
       setBotScore(botScore + 1);
       setHeadline("You Lose!");
     }
+  };
+
+  const updateHeadline = () => {
+    setHeadline(round % 2 === 0 ? "Stonk Go Up!" : "Stonk Go Down!");
+  };
+
+  const updateRound = () => {
+    setRound(round + 1);
+  };
+
+  const updateDate = () => {
+    setDate(new Date());
+  };
+
+  const updateStockName = () => {
+    setStockName(stockName === "GME" ? "AMC" : "GME");
+  };
+
+  const handleGuess = (guess) => {
+    const botGuess = getBotGuess();
+    logGuesses(guess, botGuess);
+    updateScores(guess, botGuess);
+    updateRound();
+    updateHeadline();
+    updateDate();
+    updateStockName();
   };
 
   return (
