@@ -3,6 +3,7 @@ import Scoreboard from "./components/Scoreboard";
 import Gamenav from "./components/Gamenav";
 import UpDown from "./components/UpDown";
 import { useState, useEffect } from "react";
+import stockData from "./pct_change.json";
 
 function App() {
   const [userScore, setUserScore] = useState(0);
@@ -12,6 +13,11 @@ function App() {
   const [stockName, setStockName] = useState("GME");
   const [round, setRound] = useState(1);
   const [isUp, setIsUp] = useState(false);
+
+  useEffect(() => {
+    const firstStock = getNextStock();
+    updateScoreboard(firstStock);
+  }, []);
 
   const getBotGuess = () => {
     return Math.random() > 0.5 ? "Up" : "Down";
@@ -25,6 +31,10 @@ function App() {
     console.log("Bot Guess: ", botGuess);
   };
 
+  const getNextStock = () => {
+    return stockData[Math.floor(Math.random() * stockData.length)];
+  };
+
   const updateScores = (userGuess, botGuess) => {
     if (isGuessCorrect(userGuess)) {
       setUserScore(userScore + 1);
@@ -34,31 +44,25 @@ function App() {
       setHeadline("You Lose!");
     }
   };
+  const updateScoreboard = (nextStock) => {
+    const nextIsUp = nextStock.percent_change > 0;
+    setIsUp(nextIsUp);
 
-  const updateHeadline = () => {
-    setHeadline(round % 2 === 0 ? "Stonk Go Up!" : "Stonk Go Down!");
-  };
+    const nextStockName = nextStock.stock;
+    setStockName(nextStockName);
 
-  const updateRound = () => {
-    setRound(round + 1);
-  };
+    const nextHeadline = nextStock.title;
+    setHeadline(nextHeadline);
 
-  const updateDate = () => {
-    setDate(new Date());
-  };
-
-  const updateStockName = () => {
-    setStockName(stockName === "GME" ? "AMC" : "GME");
+    const nextDate = new Date(nextStock.date);
+    setDate(nextDate);
   };
 
   const handleGuess = (guess) => {
     const botGuess = getBotGuess();
     logGuesses(guess, botGuess);
     updateScores(guess, botGuess);
-    updateRound();
-    updateHeadline();
-    updateDate();
-    updateStockName();
+    updateScoreboard(getNextStock());
   };
 
   return (
@@ -70,6 +74,7 @@ function App() {
         date={date}
         stockName={stockName}
         round={round}
+        isUp={isUp}
       />
       <UpDown handleGuess={handleGuess} />
       <Gamenav />

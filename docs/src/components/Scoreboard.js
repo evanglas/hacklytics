@@ -10,12 +10,15 @@ export default function Scoreboard(props) {
         <div className="flex flex-row justify-around">
           <div>Stock = {props.stockName}</div>
           <div>
-            Date = {props.date.getMonth()}/{props.date.getDate()}/
+            Date: {props.date.getMonth()}/{props.date.getDate()}/
             {props.date.getFullYear()}
           </div>
         </div>
-        <div className="flex flex-row justify-around">
-          Header = {props.headline}
+        <div className="w-full flex flex-row justify-center">
+          {props.headline}
+        </div>
+        <div className="flex flex-row justify-center">
+          {props.isUp ? "Up" : "Down"}
         </div>
       </div>
     </div>
