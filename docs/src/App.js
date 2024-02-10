@@ -11,6 +11,29 @@ function App() {
   const [date, setDate] = useState(new Date());
   const [stockName, setStockName] = useState("GME");
   const [round, setRound] = useState(1);
+  const [isUp, setIsUp] = useState(false);
+
+  const getBotGuess = () => {
+    return Math.random() > 0.5 ? "Up" : "Down";
+  };
+  const isGuessCorrect = (guess) => {
+    return guess === "Up" ? isUp : !isUp;
+  };
+
+  const handleGuess = (guess) => {
+    console.log("User Guess: ", guess);
+    const botGuess = getBotGuess();
+    console.log("Bot Guess: ", botGuess);
+
+    if (isGuessCorrect(guess)) {
+      setUserScore(userScore + 1);
+      setHeadline("You Win!");
+    } else {
+      setBotScore(botScore + 1);
+      setHeadline("You Lose!");
+    }
+  };
+
   return (
     <div>
       <Scoreboard
@@ -21,7 +44,7 @@ function App() {
         stockName={stockName}
         round={round}
       />
-      <UpDown />
+      <UpDown handleGuess={handleGuess} />
       <Gamenav />
     </div>
   );
