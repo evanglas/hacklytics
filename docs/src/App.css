@@ -1,0 +1,5 @@
+/* global.css */
+
+* {
+  transition: all 0.3s ease; /* Apply a smooth transition to all elements */
+}
