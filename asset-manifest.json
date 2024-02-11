@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/hacklytics/hacklytics/static/css/main.e6c13ad2.css",
-    "main.js": "/hacklytics/hacklytics/static/js/main.52cfea54.js",
-    "static/js/592.db114e24.chunk.js": "/hacklytics/hacklytics/static/js/592.db114e24.chunk.js",
-    "index.html": "/hacklytics/hacklytics/index.html",
-    "main.e6c13ad2.css.map": "/hacklytics/hacklytics/static/css/main.e6c13ad2.css.map",
-    "main.52cfea54.js.map": "/hacklytics/hacklytics/static/js/main.52cfea54.js.map",
-    "592.db114e24.chunk.js.map": "/hacklytics/hacklytics/static/js/592.db114e24.chunk.js.map"
+    "main.css": "/hacklytics/docs/static/css/main.2d3d400b.css",
+    "main.js": "/hacklytics/docs/static/js/main.24e6161d.js",
+    "static/js/592.db114e24.chunk.js": "/hacklytics/docs/static/js/592.db114e24.chunk.js",
+    "index.html": "/hacklytics/docs/index.html",
+    "main.2d3d400b.css.map": "/hacklytics/docs/static/css/main.2d3d400b.css.map",
+    "main.24e6161d.js.map": "/hacklytics/docs/static/js/main.24e6161d.js.map",
+    "592.db114e24.chunk.js.map": "/hacklytics/docs/static/js/592.db114e24.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6c13ad2.css",
-    "static/js/main.52cfea54.js"
+    "static/css/main.2d3d400b.css",
+    "static/js/main.24e6161d.js"
   ]
 }
