@@ -3,7 +3,7 @@ import Scoreboard from "./components/Scoreboard";
 import Gamenav from "./components/Gamenav";
 import UpDown from "./components/UpDown";
 import { useState, useEffect } from "react";
-import stockData from "./pct_change.json";
+import stockData from "./sdat.json";
 
 function App() {
   const [isCorrect, setIsCorrect] = useState(null);
@@ -14,18 +14,40 @@ function App() {
   const [stockName, setStockName] = useState("GME");
   const [round, setRound] = useState(1);
   const [isUp, setIsUp] = useState(false);
-
+  const [opens, setOpens] = useState(stockData[0].open);
   const [showAfterData, setShowAfterData] = useState(false);
-
+  const [guessed, setGuessed] = useState(false);
+  const [interpreted, setInterpreted] = useState(false);
+  const [explainText, setExplainText] = useState(null);
   const handleShowData = () => {
-    console.log("hi");
     setShowAfterData(!showAfterData);
   };
 
   useEffect(() => {
     const firstStock = getNextStock();
+    setOpens(firstStock.open);
     updateScoreboard(firstStock);
   }, []);
+
+  const updateScoreboard = (nextStock) => {
+    const openList = Object.entries(nextStock.open).map(([key, value]) => [
+      key,
+      value,
+    ]);
+    const lastOpenPrice = openList.slice(-1)[0][1];
+    const firstOpenPrice = openList[0][1];
+    const nextIsUp = lastOpenPrice > firstOpenPrice;
+    setIsUp(nextIsUp);
+
+    const nextStockName = nextStock.ticker;
+    setStockName(nextStockName);
+
+    const nextHeadline = nextStock.heading;
+    setHeadline(nextHeadline);
+
+    const nextDate = new Date(nextStock.date);
+    setDate(nextDate);
+  };
 
   const getBotGuess = () => {
     return Math.random() > 0.5 ? "Up" : "Down";
@@ -47,48 +69,38 @@ function App() {
     if (isGuessCorrect(userGuess)) {
       setIsCorrect(true);
       setUserScore(userScore + 1);
-      setHeadline("You Win!");
     } else {
       setIsCorrect(false);
       setBotScore(botScore + 1);
-      setHeadline("You Lose!");
     }
   };
 
   const handleGuess = (guess) => {
+    if (guessed) return;
+    setGuessed(true);
     setShowAfterData(true);
     const botGuess = getBotGuess();
     logGuesses(guess, botGuess);
     updateScores(guess, botGuess);
-    updateScoreboard(getNextStock());
     setTimeout(() => {
       setIsCorrect(null);
     }, 500);
   };
 
   const handleNextRoundClick = () => {
+    setGuessed(false);
     setShowAfterData(false);
     setRound(round + 1);
-    updateScoreboard(getNextStock());
-  };
-
-  const updateScoreboard = (nextStock) => {
-    const nextIsUp = nextStock.percent_change > 0;
-    setIsUp(nextIsUp);
-
-    const nextStockName = nextStock.stock;
-    setStockName(nextStockName);
-
-    const nextHeadline = nextStock.title;
-    setHeadline(nextHeadline);
-
-    const nextDate = new Date(nextStock.date);
-    setDate(nextDate);
+    const nextStock = getNextStock();
+    updateScoreboard(nextStock);
+    setOpens(nextStock.open);
+    setInterpreted(false);
+    setExplainText(null);
   };
 
   return (
     <div
-      className={`app-wrapper flex flex-col justify-center items-center bg-black w-screen h-screen p-5 ${
+      className={`app-wrapper flex flex-col items-center bg-black w-screen h-screen p-5 ${
         isCorrect !== null ? (isCorrect ? "correct" : "incorrect") : ""
       }`}
     >
@@ -101,8 +113,22 @@ function App() {
         round={round}
         isUp={isUp}
       />
-      <UpDown handleGuess={handleGuess} showAfterData={showAfterData} />
-      <Gamenav handleNextRoundClick={handleNextRoundClick} />
+      <UpDown
+        handleGuess={handleGuess}
+        closes={opens}
+        showAfterData={showAfterData}
+      />
+      <Gamenav
+        guessed={guessed}
+        headline={headline}
+        stock={stockName}
+        result={isUp ? "Up" : "Down"}
+        interpreted={interpreted}
+        setInterpreted={setInterpreted}
+        handleNextRoundClick={handleNextRoundClick}
+        explainText={explainText}
+        setExplainText={setExplainText}
+      />
     </div>
   );
 }

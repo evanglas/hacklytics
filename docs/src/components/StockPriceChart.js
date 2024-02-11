@@ -10,11 +10,12 @@ const StockPriceChart = ({ stockData, showAfterData }) => {
   // Convert the stock data from an object to an array of { time, price } pairs
   const dataPoints = Object.entries(stockData)
     .map(([timestamp, price]) => ({
-      time: new Date(parseInt(timestamp) + 18000000),
+      time: new Date(parseInt(timestamp) * 1000 + 1000 * 60 * 60 * 5), // Convert to milliseconds and add 4 hours (for EST),
       price,
     }))
     .sort((a, b) => a.time - b.time); // Sort by time
 
+  // console.log(stockData);
   // Find the middle index
   const middleIndex = Math.floor(dataPoints.length / 2);
 

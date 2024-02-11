@@ -8,7 +8,7 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-async function sendRequest() {
+async function sendRequest(stock, headline, direction) {
   try {
     const response = await openai.chat.completions.create({
       messages: [
@@ -20,7 +20,12 @@ async function sendRequest() {
         {
           role: "user",
           content:
-            "Stock: APPL Headline: Apple announces new iPhone Direction: Up",
+            "Stock: " +
+            stock +
+            ", Headline: " +
+            headline +
+            ", Direction: " +
+            direction,
         },
       ],
       model: "gpt-3.5-turbo",
@@ -33,12 +38,17 @@ async function sendRequest() {
 }
 
 export default function Gamenav(props) {
-  const [explainText, setExplainText] = useState(null);
   const handleInterpret = async () => {
-    setExplainText("Fetching explanation...");
+    if (props.interpreted) return;
+    props.setExplainText("Fetching explanation...");
     try {
-      const response = await sendRequest();
-      setExplainText(response.choices[0].message.content);
+      const response = await sendRequest(
+        props.stock,
+        props.headline,
+        props.result
+      );
+      props.setExplainText(response.choices[0].message.content);
+      props.setInterpreted(true);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -52,12 +62,14 @@ export default function Gamenav(props) {
     <div className="flex flex-col items-center w-full">
       <div className="flex flex-row justify-around">
         <div className="flex flex-row justify-around w-[400px]">
-          <div
-            onClick={handleInterpret}
-            className="flex justify-center hover:cursor-pointer rounded-xl shadow-2xl shadow-slate-400 text-white bg-blue-500 hover:opacity-80 p-5"
-          >
-            Interpret This!
-          </div>
+          {props.guessed && (
+            <div
+              onClick={handleInterpret}
+              className="flex justify-center hover:cursor-pointer rounded-xl shadow-2xl shadow-slate-400 text-white bg-blue-500 hover:opacity-80 p-5"
+            >
+              Interpret This!
+            </div>
+          )}
           <div
             onClick={props.handleNextRoundClick}
             className="flex justify-center hover:cursor-pointer rounded-xl shadow-2xl shadow-slate-400 text-white bg-blue-500 hover:opacity-80 p-5"
@@ -66,9 +78,9 @@ export default function Gamenav(props) {
           </div>
         </div>
       </div>
-      {explainText && (
+      {props.explainText && (
         <div className="flex flex-row justify-center xl:w-1/2 w-[80%] mt-5 p-5 border-4 border-black rounded-xl">
-          {explainText}
+          {props.explainText}
         </div>
       )}
     </div>
