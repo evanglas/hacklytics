@@ -1,14 +1,14 @@
 /* global.css */
 
 * {
-  color: white;
+  color: black;
 }
 * {
   transition: all 0.3s ease; /* Apply a smooth transition to all elements */
 }
 
 .app-wrapper {
-  background-color: black;
+  background-color: white;
   transition: background-color 0.5s ease; /* Smooth transition for background color */
 }
 
@@ -25,7 +25,7 @@
     background-color: #00ff00; /* Green */
   }
   to {
-    background-color: black; /* Default background color */
+    background-color: white; /* Default background color */
   }
 }
 

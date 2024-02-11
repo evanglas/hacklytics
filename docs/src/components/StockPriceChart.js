@@ -30,79 +30,30 @@ const StockPriceChart = ({ stockData, showAfterData }) => {
         data: showAfterData
           ? prices
           : prices.map((price, index) => (index <= middleIndex ? price : null)),
-        borderColor: "white",
-        borderWidth: 4,
+        borderColor: "purple",
+        borderWidth: 2,
       },
     ],
   };
+
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // This will allow the chart to fill the container
+    maintainAspectRatio: false,
     scales: {
       x: {
-        display: false, // This will hide the x-axis line along with its labels and gridlines
-      },
-      y: {
-        display: false, // This will hide the y-axis line along with its labels and gridlines
-      },
-    },
-    plugins: {
-      legend: {
-        display: false, // Hide the legend
-      },
-      tooltip: {
-        enabled: true, // Enable tooltips
-        backgroundColor: "rgba(0, 0, 0, 0.8)", // Tooltip background color
-        titleColor: "white", // We set the title color to white
-        bodyColor: "white", // We set the body color to white
-        borderColor: "white", // Border color of the tooltip can be set to white for consistency
-        borderWidth: 1, // Border width of the tooltip
-        callbacks: {
-          // Only show the price in the tooltip body
-          title: () => "", // Hide the title
-          label: function (context) {
-            // Display only the price in the tooltip body
-            return `${context.parsed.y}`;
+        type: "time",
+        time: {
+          unit: "minute",
+          displayFormats: {
+            minute: "h:mm a",
           },
         },
       },
+      y: {
+        beginAtZero: false,
+      },
     },
-    // Set the background color of the chart to be transparent
-    backgroundColor: "transparent",
   };
-
-  // const options = {
-  //   responsive: true,
-  //   maintainAspectRatio: false, // Ensure the chart fills the container
-  //   scales: {
-  //     x: {
-  //       grid: {
-  //         display: false, // Hide the grid lines for the x-axis
-  //       },
-  //       ticks: {
-  //         display: false, // Hide the tick labels for the x-axis
-  //       },
-  //     },
-  //     y: {
-  //       grid: {
-  //         display: false, // Hide the grid lines for the y-axis
-  //       },
-  //       ticks: {
-  //         display: false, // Hide the tick labels for the y-axis
-  //       },
-  //     },
-  //   },
-  //   plugins: {
-  //     legend: {
-  //       display: false, // Hide the legend
-  //     },
-  //     tooltip: {
-  //       enabled: false, // Disable tooltips
-  //     },
-  //   },
-  //   // Set the background color of the chart to be transparent
-  //   backgroundColor: "transparent",
-  // };
 
   // Style for the chart container
   const chartContainerStyle = {

@@ -54,13 +54,13 @@ export default function Gamenav(props) {
         <div className="flex flex-row justify-around w-[400px]">
           <div
             onClick={handleInterpret}
-            className="flex justify-center rounded-xl bg-blue-500 hover:opacity-80 p-5 border-black border-4"
+            className="flex justify-center hover:cursor-pointer rounded-xl shadow-2xl shadow-slate-400 text-white bg-blue-500 hover:opacity-80 p-5"
           >
             Interpret This!
           </div>
           <div
             onClick={props.handleNextRoundClick}
-            className="flex justify-center rounded-xl bg-blue-500 hover:opacity-80 p-5 border-black border-4"
+            className="flex justify-center hover:cursor-pointer rounded-xl shadow-2xl shadow-slate-400 text-white bg-blue-500 hover:opacity-80 p-5"
           >
             Next Round!
           </div>

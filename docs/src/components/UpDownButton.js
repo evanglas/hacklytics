@@ -7,7 +7,7 @@ import {
 export default function UpDownButton(props) {
   return (
     <div
-      className={`rounded-xl m-5 w-52 h-52 bg-${props.color}-500 hover:opacity-80 flex justify-center items-center border-black border-4`}
+      className={`rounded-xl m-5 w-52 h-52 bg-${props.color}-500 hover:opacity-80 flex hover:cursor-pointer justify-center items-center shadow-2xl shadow-slate-400`}
       onClick={() => {
         props.handleGuess(props.text);
         console.log(props.color);
