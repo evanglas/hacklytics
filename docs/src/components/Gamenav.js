@@ -1,5 +1,6 @@
 import React from "react";
 import OpenAI from "openai";
+import axios from "axios";
 
 import { useState } from "react";
 
@@ -10,7 +11,12 @@ const openai = new OpenAI({
 
 async function sendRequest(stock, headline, direction) {
   try {
-    const response = await openai.chat.completions.create({
+    // Your Lambda function endpoint
+    const endpoint =
+      "https://foybrayfiauncvja5ngxpfvdae0weiah.lambda-url.us-east-2.on.aws/";
+
+    // Your API request data
+    const requestData = {
       messages: [
         {
           role: "system",
@@ -19,21 +25,19 @@ async function sendRequest(stock, headline, direction) {
         },
         {
           role: "user",
-          content:
-            "Stock: " +
-            stock +
-            ", Headline: " +
-            headline +
-            ", Direction: " +
-            direction,
+          content: `Stock: ${stock}, Headline: ${headline}, Direction: ${direction}`,
         },
       ],
       model: "gpt-3.5-turbo",
-    });
-    return response;
+    };
+
+    // Send a POST request to the Lambda function
+    const lambdaResponse = await axios.post(endpoint, requestData);
+
+    // Set the response received from the Lambda function
+    return lambdaResponse.data;
   } catch (error) {
-    console.error("Error sending request to OpenAI:", error);
-    throw error;
+    console.error("Error:", error);
   }
 }
 
