@@ -32,9 +32,9 @@ async function sendRequest() {
   }
 }
 
-export default function Gamenav() {
+export default function Gamenav(props) {
   const [explainText, setExplainText] = useState(null);
-  const handleNextRoundClick = async () => {
+  const handleInterpret = async () => {
     setExplainText("Fetching explanation...");
     try {
       const response = await sendRequest();
@@ -44,17 +44,24 @@ export default function Gamenav() {
     }
   };
 
+  const dataBefore = [210, 215, 212, 210, 215, 217, 219];
+  const dataAfter = [219, 218, 214, 210, 208, 205, 200];
+  const changeTime = "11:35 AM";
+
   return (
     <div className="flex flex-col items-center w-full">
       <div className="flex flex-row justify-around">
         <div className="flex flex-row justify-around w-[400px]">
           <div
-            onClick={handleNextRoundClick}
+            onClick={handleInterpret}
             className="flex justify-center rounded-xl bg-blue-500 hover:opacity-80 p-5 border-black border-4"
           >
             Interpret This!
           </div>
-          <div className="flex justify-center rounded-xl bg-blue-500 hover:opacity-80 p-5 border-black border-4">
+          <div
+            onClick={props.handleNextRoundClick}
+            className="flex justify-center rounded-xl bg-blue-500 hover:opacity-80 p-5 border-black border-4"
+          >
             Next Round!
           </div>
         </div>

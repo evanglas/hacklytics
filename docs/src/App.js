@@ -15,6 +15,13 @@ function App() {
   const [round, setRound] = useState(1);
   const [isUp, setIsUp] = useState(false);
 
+  const [showAfterData, setShowAfterData] = useState(false);
+
+  const handleShowData = () => {
+    console.log("hi");
+    setShowAfterData(!showAfterData);
+  };
+
   useEffect(() => {
     const firstStock = getNextStock();
     updateScoreboard(firstStock);
@@ -49,6 +56,7 @@ function App() {
   };
 
   const handleGuess = (guess) => {
+    setShowAfterData(true);
     const botGuess = getBotGuess();
     logGuesses(guess, botGuess);
     updateScores(guess, botGuess);
@@ -56,6 +64,12 @@ function App() {
     setTimeout(() => {
       setIsCorrect(null);
     }, 500);
+  };
+
+  const handleNextRoundClick = () => {
+    setShowAfterData(false);
+    setRound(round + 1);
+    updateScoreboard(getNextStock());
   };
 
   const updateScoreboard = (nextStock) => {
@@ -74,9 +88,9 @@ function App() {
 
   return (
     <div
-      className={`app-wrapper ${
+      className={`app-wrapper flex flex-col justify-center items-center bg-black w-screen h-screen p-5 ${
         isCorrect !== null ? (isCorrect ? "correct" : "incorrect") : ""
-      } flex flex-col justify-center items-center w-screen h-screen p-5`}
+      }`}
     >
       <Scoreboard
         userScore={userScore}
@@ -87,8 +101,8 @@ function App() {
         round={round}
         isUp={isUp}
       />
-      <UpDown handleGuess={handleGuess} />
-      <Gamenav />
+      <UpDown handleGuess={handleGuess} showAfterData={showAfterData} />
+      <Gamenav handleNextRoundClick={handleNextRoundClick} />
     </div>
   );
 }
